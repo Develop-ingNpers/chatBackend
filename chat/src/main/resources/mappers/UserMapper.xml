@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+
+<mapper namespace="com.project.chat.Mapper.UserMapper">
+    <select id='getUsers' resultType="com.project.chat.Vo.User">
+		SELECT 
+		id as id,
+		name as name,
+	    pw as pw, 
+	    fail_cnt as failCnt,
+	    auth_code as authCode,
+	    reg_date as regDate,
+	    upt_date as uptDate
+		from USER
+	</select>
+	
+	<select id='getUser' resultType="com.project.chat.Vo.User" parameterType="java.lang.String">
+		SELECT 
+		id as id,
+		name as name,
+	    pw as pw, 
+	    fail_cnt as failCnt,
+	    auth_code as authCode,
+	    reg_date as regDate,
+	    upt_date as uptDate
+		from USER
+		where id = #{id}
+	</select>
+	
+	<insert id="postUser">
+		insert into USER (id, name, pw, fail_cnt, auth_code, reg_date)
+		values
+		(#{id},#{name},#{pw},0,#{authCode} ,sysdate())
+	</insert>
+	
+	<update id="putUser">
+		UPDATE   USER
+        SET      name = #{name}
+                ,pw = #{pw}
+                ,fail_cnt =#{failCnt}
+                ,auth_code = #{authCode}
+                ,upt_date = #{uptDate}
+        WHERE     id = #{id}  
+	</update>
+	
+	<delete id='deleteUser' parameterType='String'>
+	   DELETE 
+	   FROM USER
+	   WHERE id = #{id}
+</delete>
+	
+</mapper>
