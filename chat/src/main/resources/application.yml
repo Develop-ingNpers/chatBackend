@@ -4,6 +4,7 @@ spring:
     url : jdbc:mysql://13.209.98.146:3306/chatproject?characterEncoding=UTF-8&serverTimezone=UTC
     username : root
     password : Odudals753!
+
   url:
     base: http://localhost:8080
   
@@ -17,3 +18,8 @@ login:
       logout: https://kapi.kakao.com/v1/user/logout
       token: https://kauth.kakao.com/oauth/token
       profile: https://kapi.kakao.com/v2/user/me
+  naver:
+     client-id : UJDafTNvyeDfOJNTsIpV
+     client-secret : XqTYM5w7N6
+     get-token-url : https://nid.naver.com/oauth2.0/token?grant_type=authorization_code
+     get-detail-url :  https://openapi.naver.com/v1/nid/me
