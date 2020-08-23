@@ -30,10 +30,44 @@
 		where id = #{id}
 	</select>
 	
+	<select id='checkUser' parameterType="com.project.chat.Vo.User" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		from USER
+		where id = #{id}
+		and type = #{type}
+	</select>
+	
 	<insert id="postUser">
-		insert into USER (id, name, pw, fail_cnt, auth_code, reg_date)
+		insert into USER 
+		(
+		id 
+		,type 
+		<if test ="name!=null">
+		,name
+		</if> 
+		,pw 
+		,fail_cnt 
+		,auth_code 
+		,reg_date 
+		<if test ="email!=null">
+		,email
+		</if>
+		)
 		values
-		(#{id},#{name},#{pw},0,#{authCode} ,sysdate())
+		(
+		#{id}
+		,#{type}
+		<if test ="name!=null">
+		,#{name}
+		</if>
+		,#{pw}
+		,0
+		,#{authCode}
+		,sysdate()
+		<if test ="email!=null">
+		,#{email}
+		</if>
+		)
 	</insert>
 	
 	<update id="putUser">

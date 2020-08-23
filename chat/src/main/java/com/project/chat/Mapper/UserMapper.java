@@ -10,6 +10,8 @@ public interface UserMapper {
 	
 	public User getUser(String id);
 	
+	public int checkUser(User user);
+	
 	public int postUser(User user);
 	
 	public int putUser(User user);

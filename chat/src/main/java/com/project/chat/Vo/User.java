@@ -13,5 +13,7 @@ public class User {
 	private int authCode;
 	private Date regDate;
 	private Date uptDate;
+	private String type;
+	private String email;
 	
 }
