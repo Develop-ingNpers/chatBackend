@@ -5,7 +5,19 @@ spring:
     username : root
     password : Odudals753!
 
+  url:
+    base: http://localhost:8080
+  
 login:
+  kakao:
+    client_id: c2349c66079371ea43050cfcd8c38f19 # 앱생성시 받은 REST API 키
+    login_redirect: /login/social/kakao
+    logout_redirect: /logout/social/kakao
+    url:
+      login: https://kauth.kakao.com/oauth/authorize
+      logout: https://kapi.kakao.com/v1/user/logout
+      token: https://kauth.kakao.com/oauth/token
+      profile: https://kapi.kakao.com/v2/user/me
   naver:
      client-id : UJDafTNvyeDfOJNTsIpV
      client-secret : XqTYM5w7N6
