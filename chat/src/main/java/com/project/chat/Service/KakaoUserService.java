@@ -32,22 +32,22 @@ public class KakaoUserService {
 	@Value("${spring.url.base}")
 	private String baseUrl;
 	
-	@Value("${spring.social.kakao.client_id}")
+	@Value("${login.kakao.client_id}")
 	private String kakaoClientId;
 	
-	@Value("${spring.social.kakao.login_redirect}")
+	@Value("${login.kakao.login_redirect}")
 	private String kakaoLoginRedirect;
 	
-	@Value("${spring.social.kakao.logout_redirect}")
+	@Value("${login.kakao.logout_redirect}")
 	private String kakaoLogoutRedirect;
 	
-	@Value("${spring.social.kakao.url.token}")
+	@Value("${login.kakao.url.token}")
 	private String kakaoUrlToken;
 	
-	@Value("${spring.social.kakao.url.profile}")
+	@Value("${login.kakao.url.profile}")
 	private String kakaoUrlProfile;
 	
-	@Value("${spring.social.kakao.url.logout}")
+	@Value("${login.kakao.url.logout}")
 	private String kakaoUrlLogout;
 	
 	public String getAccessToken (String authorize_code) {

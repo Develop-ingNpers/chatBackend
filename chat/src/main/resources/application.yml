@@ -4,15 +4,16 @@ spring:
     url : jdbc:mysql://13.209.98.146:3306/chatproject?characterEncoding=UTF-8&serverTimezone=UTC
     username : root
     password : Odudals753!
-  social:
-    kakao:
-      client_id: c2349c66079371ea43050cfcd8c38f19 # 앱생성시 받은 REST API 키
-      login_redirect: /login/social/kakao
-      logout_redirect: /logout/social/kakao
-      url:
-        login: https://kauth.kakao.com/oauth/authorize
-        logout: https://kapi.kakao.com/v1/user/logout
-        token: https://kauth.kakao.com/oauth/token
-        profile: https://kapi.kakao.com/v2/user/me
   url:
     base: http://localhost:8080
+  
+login:
+  kakao:
+    client_id: c2349c66079371ea43050cfcd8c38f19 # 앱생성시 받은 REST API 키
+    login_redirect: /login/social/kakao
+    logout_redirect: /logout/social/kakao
+    url:
+      login: https://kauth.kakao.com/oauth/authorize
+      logout: https://kapi.kakao.com/v1/user/logout
+      token: https://kauth.kakao.com/oauth/token
+      profile: https://kapi.kakao.com/v2/user/me

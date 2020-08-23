@@ -88,15 +88,6 @@ public class UserController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/logout/social/kakao")
-	public int oauthKakaoLogout2(/* @RequestParam("state") String state */) throws Exception {
-		// 카카오계정과 함께 로그아웃 기능제공
-		log.info("oauthKakaoLogout2");
-		//log.info("state : " + state);
-		
-		return 1;
-	}
-	
 	@RequestMapping(value = "/session")
 	public String getSessionInfo(HttpSession session) throws Exception {
 		// 임시 테스트용 Session정보 확인
