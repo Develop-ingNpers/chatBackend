@@ -22,9 +22,15 @@ import com.project.chat.Vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
+/*
+ * Kakao Login URL
+ * > https://kauth.kakao.com/oauth/authorize?client_id=c2349c66079371ea43050cfcd8c38f19&redirect_uri=http://localhost:8080/login/social/kakao&response_type=code
+ * Kakao Logout URL
+ * > http://localhost:8080/logout/social/kakao/simple
+ * */
 @Slf4j
 @Service
-public class KakaoUserService {
+public class KakaoUserService extends UserService{
 	
 	@Autowired 
 	UserMapper userMapper;
@@ -32,13 +38,13 @@ public class KakaoUserService {
 	@Value("${spring.url.base}")
 	private String baseUrl;
 	
-	@Value("${login.kakao.client_id}")
+	@Value("${login.kakao.client-id}")
 	private String kakaoClientId;
 	
-	@Value("${login.kakao.login_redirect}")
+	@Value("${login.kakao.login-redirect}")
 	private String kakaoLoginRedirect;
 	
-	@Value("${login.kakao.logout_redirect}")
+	@Value("${login.kakao.logout-redirect}")
 	private String kakaoLogoutRedirect;
 	
 	@Value("${login.kakao.url.token}")
@@ -160,8 +166,8 @@ public class KakaoUserService {
 	        String email = kakao_account.getAsJsonObject().get("email").getAsString();
 	        
 		    userInfo.setId(id);
-		    userInfo.setPw(id);
 		    userInfo.setType("kakao");
+		    userInfo.setPw(userInfo.getType()+"-"+id);
 		    if(email != null && email != "")
 		    	userInfo.setEmail(email);
 	        
@@ -174,10 +180,12 @@ public class KakaoUserService {
 	    if(result == 1) {
 	    	// 로그인 성공 -> JWT토큰 발급?
 	    	log.info("기존회원 로그인");
+	    	signIn(userInfo);
 	    }else if(result == 0) {
 	    	// 신규회원 DB insert
 	    	log.info("신규회원 로그인");
-	    	userMapper.postUser(userInfo);
+	    	// userMapper.postUser(userInfo);
+	    	registerUser(userInfo);
 	    }
 	    
 	    return userInfo;
