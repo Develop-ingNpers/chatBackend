@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +33,7 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
 	@Autowired
 	KakaoUserService kakaoUserService;
 	
@@ -42,8 +47,6 @@ public class UserController {
 		//login.naverLogin(request.getParameter("code"));
 		return naverUserService.naverLogin(request.getParameter("code"));
 	}
-	
-	
 	
 	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
 	public List<User> getUsers() throws Exception {
@@ -111,6 +114,22 @@ public class UserController {
 		log.info("session - access_Token : " + session.getAttribute("access_Token"));
 		
 		return session.toString();
+	}
+	
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public ResponseEntity<?> authenticateUser(@RequestBody HashMap<String,String> userInfoMap) {
+		User userInfo = new User();
+		userInfo.setId(userInfoMap.get("id").toString());
+		userInfo.setPw(userInfoMap.get("pw").toString());
+		log.info("signin - normal : " + userInfo.toString());
+		
+		return userService.signIn(userInfo);
+	}
+	
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public ResponseEntity<?> registerUser(@RequestBody User userInfo) {
+		
+		return userService.registerUser(userInfo);
 	}
 	
 }

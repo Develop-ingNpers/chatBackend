@@ -18,4 +18,8 @@ public interface UserMapper {
 	
 	public int deleteUser(String id);
 
+	public User findUserById(String id);
+	
+	public User findUser(String id, String type);
+
 }

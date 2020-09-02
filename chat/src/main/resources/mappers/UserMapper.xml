@@ -84,6 +84,33 @@
 	   DELETE 
 	   FROM USER
 	   WHERE id = #{id}
-</delete>
+	</delete>
+	
+	<select id='findUserById' resultType="com.project.chat.Vo.User" parameterType="java.lang.String">
+		SELECT 
+		id as id,
+		name as name,
+	    pw as pw, 
+	    type as type,
+	    email as email
+		from USER
+		where id = #{id}
+	</select>
+	
+	<select id='findUser' resultType="com.project.chat.Vo.User" parameterType="java.lang.String">
+		SELECT 
+		id as id,
+		name as name,
+	    pw as pw, 
+	    type as type,
+	    email as email,
+	    fail_cnt as failCnt,
+	    auth_code as authCode,
+	    reg_date as regDate,
+	    upt_date as uptDate
+		from USER
+		where id = #{id}
+		and type = #{type}
+	</select>
 	
 </mapper>
