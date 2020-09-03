@@ -22,7 +22,6 @@ public class CustomUserDetailService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 		User user = userMapper.findUserById(id);
-		log.info("CustomUserDetailService - loadUserByUsername: "+user.toString());
 		return UserPrincipal.create(user);
 	}
 

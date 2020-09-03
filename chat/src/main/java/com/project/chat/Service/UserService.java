@@ -80,22 +80,22 @@ public class UserService {
 		
 		String jwt = tokenProvider.generateToken(authentication);
 		
+		log.info("UserService - jwt: "+jwt);
+		
 		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 	}
 	
 	public ResponseEntity<?> registerUser(User userInfo) {
+		
+		// password 형식 : kakao-1457537572 || naver-31306944
+		userInfo.setPw(userInfo.getType()+"-"+userInfo.getId());
+		userInfo.setPw(passwordEncoder.encode(userInfo.getPw()));
 
 		log.info("UserService - registerUser: "+userInfo.toString());
-		userInfo.setPw(userInfo.getType()+"-"+userInfo.getId());
-		
 		//Member result = userRepository.save(memberSave);
 		//User result = userInfo;
 		
 		userMapper.postUser(userInfo);
-		
-		// ?????????????????
-//		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
-//				.buildAndExpand(result.getName()).toUri();
 
 		return ResponseEntity.ok("User registered successfully");
 	}

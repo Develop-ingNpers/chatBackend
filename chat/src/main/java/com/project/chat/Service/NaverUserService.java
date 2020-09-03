@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 import com.project.chat.Mapper.UserMapper;
 import com.project.chat.Vo.User;
 
+/*
+ * Naver Login URL
+ * > https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=UJDafTNvyeDfOJNTsIpV&redirect_uri=http://localhost:8080/responseNaver
+ * */
 @Service
-public class NaverUserService {
+public class NaverUserService extends UserService{
 	
 	//public static String naverClientId = "UJDafTNvyeDfOJNTsIpV";
 	//public static String naverClientSecret ="XqTYM5w7N6";
@@ -49,10 +53,16 @@ public class NaverUserService {
 		int check = userMapper.checkUser(user);
 		
 		if(check==0) {
-			int resultCode = userMapper.postUser(user);
-			return resultCode;
+			// 신규회원 DB insert
+			// int resultCode = userMapper.postUser(user);
+			registerUser(user);
+			signIn(user);
+			//return resultCode;
+			return 1;
 		}
 		else {
+			// 기존회원 로그인
+			signIn(user);
 			return 0;
 		}
 		

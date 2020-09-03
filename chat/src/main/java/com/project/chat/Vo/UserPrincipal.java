@@ -36,7 +36,6 @@ public class UserPrincipal  implements UserDetails{
 
 	public static UserPrincipal create(User user) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		log.info("UserPrincipal - create: "+user.toString());
 		return new UserPrincipal(user.getId(), user.getType(), user.getName(), user.getEmail(), user.getPw(), authorities);
 	}
 	

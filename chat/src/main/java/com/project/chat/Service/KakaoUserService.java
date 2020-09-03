@@ -178,14 +178,15 @@ public class KakaoUserService extends UserService{
 	    int result = userMapper.checkUser(userInfo);
 	    
 	    if(result == 1) {
-	    	// 로그인 성공 -> JWT토큰 발급?
+	    	// 카카오 로그인 성공 -> JWT토큰 발급
 	    	log.info("기존회원 로그인");
 	    	signIn(userInfo);
 	    }else if(result == 0) {
 	    	// 신규회원 DB insert
 	    	log.info("신규회원 로그인");
-	    	// userMapper.postUser(userInfo);
 	    	registerUser(userInfo);
+	    	// 소셜 로그인이니까 신규 회원정보 등록하고 바로 로그인?
+	    	signIn(userInfo);
 	    }
 	    
 	    return userInfo;
