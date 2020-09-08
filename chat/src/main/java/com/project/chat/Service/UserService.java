@@ -92,10 +92,11 @@ public class UserService {
 		userInfo.setPw(passwordEncoder.encode(userInfo.getPw()));
 
 		log.info("UserService - registerUser: "+userInfo.toString());
-		//Member result = userRepository.save(memberSave);
-		//User result = userInfo;
 		
 		userMapper.postUser(userInfo);
+		
+		// 신규 회원이 소셜로그인을 한경우 바로 로그인까지 해야하므로 비밀번호 암호화 원복
+		userInfo.setPw(userInfo.getType()+"-"+userInfo.getId());
 
 		return ResponseEntity.ok("User registered successfully");
 	}

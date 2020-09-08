@@ -163,13 +163,14 @@ public class KakaoUserService extends UserService{
 	        
 	        String id = element.getAsJsonObject().get("id").toString();
 	        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-	        String email = kakao_account.getAsJsonObject().get("email").getAsString();
+	        if(kakao_account.getAsJsonObject().get("email") != null) {
+	        	String email = kakao_account.getAsJsonObject().get("email").getAsString();
+	        	userInfo.setEmail(email);
+	        }
 	        
 		    userInfo.setId(id);
 		    userInfo.setType("kakao");
 		    userInfo.setPw(userInfo.getType()+"-"+id);
-		    if(email != null && email != "")
-		    	userInfo.setEmail(email);
 	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
