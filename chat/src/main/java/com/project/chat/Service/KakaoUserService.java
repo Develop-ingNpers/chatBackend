@@ -12,12 +12,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.project.chat.Mapper.UserMapper;
+import com.project.chat.Vo.ResponseWrapper;
 import com.project.chat.Vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -120,10 +122,11 @@ public class KakaoUserService extends UserService{
         return access_Token;
     }
 	
-	public User getUserInfo (String access_Token) {
+	public String getUserInfo (String access_Token) {
 	    // 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
 	    //HashMap<String, Object> userInfo = new HashMap<>();
 	    User userInfo = new User();
+	    String token = null;
 	    
 	    try {
 	        URL url = new URL(kakaoUrlProfile);
@@ -181,16 +184,16 @@ public class KakaoUserService extends UserService{
 	    if(result == 1) {
 	    	// 카카오 로그인 성공 -> JWT토큰 발급
 	    	log.info("기존회원 로그인");
-	    	signIn(userInfo);
+	    	token = signIn(userInfo);
 	    }else if(result == 0) {
 	    	// 신규회원 DB insert
 	    	log.info("신규회원 로그인");
 	    	registerUser(userInfo);
 	    	// 소셜 로그인이니까 신규 회원정보 등록하고 바로 로그인?
-	    	signIn(userInfo);
+	    	token = signIn(userInfo);
 	    }
 	    
-	    return userInfo;
+	    return token;
 	}
 	
 	public int kakaoLogout(String access_Token) {

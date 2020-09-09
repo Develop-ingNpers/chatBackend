@@ -27,7 +27,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.project.chat.Mapper.UserMapper;
+import com.project.chat.Vo.ResponseWrapper;
 import com.project.chat.Vo.User;
+import com.project.chat.exception.ApiErrorResponse;
 import com.project.chat.security.JwtAuthenticationResponse;
 import com.project.chat.security.JwtTokenProvider;
 
@@ -69,7 +71,7 @@ public class UserService {
 		return userMapper.deleteUser(id);
 	}
 	
-	public ResponseEntity<?> signIn(User userInfo) {
+	public String signIn(User userInfo) {
 		
 		log.info("UserService - signIn: "+userInfo.toString());
 		
@@ -82,7 +84,9 @@ public class UserService {
 		
 		log.info("UserService - jwt: "+jwt);
 		
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+		//ResponseWrapper<?> wrapper = new ResponseWrapper(new ApiErrorResponse(ApiErrorResponse.OK, ApiErrorResponse.OK_MSG), jwt);
+		
+		return jwt;
 	}
 	
 	public ResponseEntity<?> registerUser(User userInfo) {

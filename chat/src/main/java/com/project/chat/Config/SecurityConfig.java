@@ -91,7 +91,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                     .antMatchers("/swagger-ui.html","/swagger-resources/**","/v2/api-docs", "/webjars/**")
                         .permitAll()
                     .anyRequest()
-                        .authenticated();
+                        .permitAll();
+                        //.authenticated();
+                    
 
         // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
         // Add our custom JWT security filter

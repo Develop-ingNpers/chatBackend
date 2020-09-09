@@ -3,16 +3,11 @@ package com.project.chat.Controller;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,13 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.chat.Service.KakaoUserService;
 import com.project.chat.Service.NaverUserService;
 import com.project.chat.Service.UserService;
+import com.project.chat.Vo.ResponseWrapper;
 import com.project.chat.Vo.User;
+import com.project.chat.exception.ApiErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @RestController
+//@RequestMapping("/api")
 public class UserController {
 	
 	@Autowired
@@ -74,7 +72,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login/social/kakao")
-	public int oauthKakaoLogin(@RequestParam("code") String code, HttpSession session) throws Exception {
+	public ResponseWrapper<?> oauthKakaoLogin(@RequestParam("code") String code, HttpSession session) throws Exception {
 		// 1. Client쪽에 카카오로그인 페이지를 띄우고 동의하기 버튼을 누르면 해당 URI로 Code를 포함하여 Redirect됨
 		
 		log.info("code : " + code);
@@ -83,14 +81,18 @@ public class UserController {
 		String access_Token = kakaoUserService.getAccessToken(code);
 		
 		// 3. token을 기반으로 사용자 정보 받아와서 DB정보와 비교, 없으면 insert
-		User userInfo = kakaoUserService.getUserInfo(access_Token);
+		String token = kakaoUserService.getUserInfo(access_Token);
 		
-		log.info("userInfo : " + userInfo);
+		log.info("jwt token : " + token);
 		
-		if(userInfo == null)
-			return -1;
-		else
-			return 1;
+		
+		if(token == null) {
+			return new ResponseWrapper(new ApiErrorResponse(ApiErrorResponse.BAD_REQUEST, ApiErrorResponse.BAD_REQUEST_MSG), token);
+		}
+		else {
+			return new ResponseWrapper(new ApiErrorResponse(ApiErrorResponse.OK, ApiErrorResponse.OK_MSG), token);
+		}
+		
 	}
 	
 	@RequestMapping(value = "/logout/social/kakao/simple")
@@ -117,13 +119,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
-	public ResponseEntity<?> authenticateUser(@RequestBody HashMap<String,String> userInfoMap) {
+	public ResponseWrapper<?> authenticateUser(@RequestBody HashMap<String,String> userInfoMap) {
 		User userInfo = new User();
 		userInfo.setId(userInfoMap.get("id").toString());
 		userInfo.setPw(userInfoMap.get("pw").toString());
 		log.info("signin - normal : " + userInfo.toString());
 		
-		return userService.signIn(userInfo);
+		return new ResponseWrapper(new ApiErrorResponse(ApiErrorResponse.OK, ApiErrorResponse.OK_MSG), userService.signIn(userInfo));
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
