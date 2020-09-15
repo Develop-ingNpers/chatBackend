@@ -7,6 +7,8 @@ spring:
 
   url:
     base: http://localhost:8080
+  thymeleaf:
+    cache: false
   
 login:
   kakao:
